@@ -315,15 +315,10 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
 
     async def async_set_preset_mode(self, preset_mode):
         """Set preset mode."""
-        data = {"key": self._static_info.key}
-        _LOGGER.error("%s - %s", preset_mode, data)
-        if preset_mode == "home":
-           _LOGGER.error("PRESET_HOME")
-        else:
-           _LOGGER.error("Bo")  
-        #away = preset_mode == PRESET_AWAY
-        #await self._client.climate_command(
-        #    key=self._static_info.key, away=away)
+        _LOGGER.error("%s - %s", preset_mode)
+        away = preset_mode == PRESET_AWAY
+        await self._client.climate_command(
+            key=self._static_info.key, away=away)
 
         #if str(preset_mode) == "away":
         #   _LOGGER.error("PRESET_AWAY")
