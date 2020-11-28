@@ -259,7 +259,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         """Return current preset mode."""
         #if self._static_info.supports_away: 
         if self._state.away: return PRESET_AWAY 
-        elif self._state.turbo: return PRESET_BOOST
+        elif self._state.boost: return PRESET_BOOST
         elif self._state.sleep: return PRESET_SLEEP
         elif not self._static_info.supports_turbo and not self._static_info.supports_sleep: 
             return PRESET_HOME
