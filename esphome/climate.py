@@ -320,13 +320,18 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if preset_mode == "away":
            away = preset_mode == PRESET_AWAY
            await self._client.climate_command(key=self._static_info.key, away=away)
+        if preset_mode == "home":
+           home = preset_mode == PRESET_HOME
+           await self._client.climate_command(key=self._static_info.key, home=home)
         if preset_mode == "boost":
            boost = preset_mode == PRESET_BOOST
            await self._client.climate_command(key=self._static_info.key, boost=boost)
         if preset_mode == "sleep":
-           sleep = preset_mode == sleep
+           sleep = preset_mode == PRESET_SLEEP
            await self._client.climate_command(key=self._static_info.key, sleep=sleep)
-
+        if preset_mode == "none":
+           none = preset_mode == PRESET_NONE
+           await self._client.climate_command(key=self._static_info.key, none=none)
 
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new fan mode."""
