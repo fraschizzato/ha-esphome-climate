@@ -173,7 +173,8 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
             _fan_modes.from_esphome(mode)
             for mode in self._static_info.supported_fan_modes
         ]
-        @property
+
+    @property
     def preset_modes(self):
         """Return preset modes."""
         presets = []
