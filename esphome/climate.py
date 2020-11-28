@@ -262,7 +262,6 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     @esphome_state_property
     def preset_mode(self):
         """Return current preset mode.""" 
-        _LOGGER.error("%s", self._state.away )
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
         elif self._state.sleep: return PRESET_SLEEP
@@ -317,7 +316,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     async def async_set_preset_mode(self, preset_mode):
         """Set preset mode."""
         _LOGGER.error("%s", preset_mode)
-        if preset_mode == home:
+        if preset_mode == "home":
            _LOGGER.error("PRESET_HOME")
         else:
            _LOGGER.error("Bo")  
