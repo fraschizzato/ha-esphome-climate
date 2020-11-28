@@ -326,13 +326,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if preset_mode == "sleep":
            sleep = preset_mode == sleep
            await self._client.climate_command(key=self._static_info.key, sleep=sleep)
-        #if preset_mode == PRESET_AWAY : preset = PRESET_AWAY
-        #elif preset_mode == PRESET_HOME: preset = PRESET_HOME
-        #elif preset_mode == PRESET_BOOST: preset = PRESET_BOOST
-        #elif preset_mode == PRESET_SLEEP: preset = PRESET_SLEEP
-        #elif preset_mode == PRESET_ECO: preset = PRESET_ECO
-        #else: preset = PRESET_NONE
-        #await self._client.climate_command( key=self._static_info.key, preset=preset)
+
 
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new fan mode."""
