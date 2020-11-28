@@ -261,8 +261,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
 
     @esphome_state_property
     def preset_mode(self):
-        """Return current preset mode."""
-        #if self._static_info.supports_away: 
+        """Return current preset mode.""" 
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
         elif self._state.sleep: return PRESET_SLEEP
@@ -317,9 +316,15 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     async def async_set_preset_mode(self, preset_mode):
         """Set preset mode."""
         _LOGGER.error("%s", preset_mode)
-        if preset_mode == PRESET_AWAY:
+        if preset_mode == away:
            away = preset_mode == PRESET_AWAY
            await self._client.climate_command(key=self._static_info.key, away=away)
+        if preset_mode == boost:
+           boost = preset_mode == PRESET_BOOST
+           await self._client.climate_command(key=self._static_info.key, boost=boost)
+        if preset_mode == sleep:
+           sleep = preset_mode == sleep
+           await self._client.climate_command(key=self._static_info.key, sleep=sleep)
         #if preset_mode == PRESET_AWAY : preset = PRESET_AWAY
         #elif preset_mode == PRESET_HOME: preset = PRESET_HOME
         #elif preset_mode == PRESET_BOOST: preset = PRESET_BOOST
