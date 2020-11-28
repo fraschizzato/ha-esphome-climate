@@ -322,7 +322,8 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
            await self._client.climate_command(key=self._static_info.key, away=away)
         if preset_mode == "home":
            _LOGGER.error("PRESET_HOME")
-           await self._client.climate_command(key=self._static_info.key, away=PRESET_HOME)
+           away = preset_mode == PRESET_HOME
+           await self._client.climate_command(key=self._static_info.key, away=away)
         if preset_mode == "boost":
            boost = preset_mode == PRESET_BOOST
            await self._client.climate_command(key=self._static_info.key, boost=boost)
