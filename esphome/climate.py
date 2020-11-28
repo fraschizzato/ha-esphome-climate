@@ -178,20 +178,17 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     def preset_modes(self):
         """Return preset modes."""
         presets = []
-        if self._static_info.supports_away and not self._static_info.supports_home: 
+        none_flag = False
+        if self._static_info.supports_away: 
            presets.append(PRESET_AWAY)
            presets.append(PRESET_HOME)
-        elif self._static_info.supports_away:
-           presets.append(PRESET_AWAY)
-        if self._static_info.supports_home:
-           presets.append(PRESET_HOME)
-        if self._static_info.supports_turbo:
+        if self._static_info.supports_boost:
            presets.append(PRESET_BOOST)
+           none_flag = True
         if self._static_info.supports_sleep:
            presets.append(PRESET_SLEEP)
-        if self._static_info.supports_eco:
-           presets.append(PRESET_ECO)
-        if len(presets) > 0:
+           none_flag = True
+        if none_flag:
            presets.append(PRESET_NONE)
 
         return presets
@@ -228,7 +225,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
             features |= SUPPORT_TARGET_TEMPERATURE_RANGE
         else:
             features |= SUPPORT_TARGET_TEMPERATURE
-        if self._static_info.supports_away or self._static_info.supports_turbo or self._static_info.supports_sleep  or self._static_info.supports_eco or self._static_info.supports_home:
+        if self._static_info.supports_away or self._static_info.supports_sleep or self._static_info.supports_boost:
             features |= SUPPORT_PRESET_MODE
         if self._static_info.supported_fan_modes:
             features |= SUPPORT_FAN_MODE
