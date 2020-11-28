@@ -262,6 +262,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     @esphome_state_property
     def preset_mode(self):
         """Return current preset mode.""" 
+        _LOGGER.error("%s", self._state.away )
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
         elif self._state.sleep: return PRESET_SLEEP
