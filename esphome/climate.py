@@ -261,7 +261,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
         elif self._state.sleep: return PRESET_SLEEP
-        elif not self._static_info.supports_turbo and not self._static_info.supports_sleep: 
+        elif not self._static_info.supports_boost and not self._static_info.supports_sleep: 
             return PRESET_HOME
         else: return PRESET_NONE
 
