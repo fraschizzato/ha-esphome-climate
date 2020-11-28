@@ -1,4 +1,9 @@
 """Support for ESPHome climate devices."""
+import logging
+
+DOMAIN = "esphome"
+_LOGGER = logging.getLogger(__name__)
+
 from typing import List, Optional
 
 from aioesphomeapi import (
