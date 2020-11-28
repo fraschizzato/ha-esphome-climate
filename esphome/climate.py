@@ -315,7 +315,6 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
 
     async def async_set_preset_mode(self, preset_mode):
         """Set preset mode."""
-        preset_mode = "boost"
         _LOGGER.error("%s", preset_mode)
         if preset_mode == "away":
            await self._client.climate_command(key=self._static_info.key, away=True)
