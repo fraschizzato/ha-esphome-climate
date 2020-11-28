@@ -257,15 +257,13 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     @esphome_state_property
     def preset_mode(self):
         """Return current preset mode."""
-        if self._static_info.supports_away and not self._static_info.supports_home:
-           return PRESET_AWAY if self._state.away else PRESET_HOME
-        else:
-           if self._state.away: return PRESET_AWAY
-           elif self._state.home: return PRESET_HOME
-           elif self._state.turbo: return PRESET_BOOST
-           elif self._state.sleep: return PRESET_SLEEP
-           elif self._state.eco: return PRESET_ECO
-           else: return PRESET_NONE
+        #if self._static_info.supports_away: 
+        if self._state.away return PRESET_AWAY 
+        elif self._state.turbo: return PRESET_BOOST
+        elif self._state.sleep: return PRESET_SLEEP
+        elif not self._static_info.supports_turbo and not self._static_info.supports_sleep: 
+            return PRESET_HOME
+        else: return PRESET_NONE
 
     @esphome_state_property
     def swing_mode(self):
