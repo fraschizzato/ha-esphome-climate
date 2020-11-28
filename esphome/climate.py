@@ -178,7 +178,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     def preset_modes(self):
         """Return preset modes."""
         presets = []
-        if self._static_info.supports_away and !self._static_info.supports_home: 
+        if self._static_info.supports_away and not self._static_info.supports_home: 
            presets.append(PRESET_AWAY)
            presets.append(PRESET_HOME)
         elif self._static_info.supports_away:
@@ -260,7 +260,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     @esphome_state_property
     def preset_mode(self):
         """Return current preset mode."""
-        if self._static_info.supports_away and !self._static_info.supports_home:
+        if self._static_info.supports_away and not self._static_info.supports_home:
            return PRESET_AWAY if self._state.away else PRESET_HOME
         else:
            if self._state.away: return PRESET_AWAY
