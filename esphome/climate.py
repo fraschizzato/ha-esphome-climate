@@ -315,23 +315,22 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
 
     async def async_set_preset_mode(self, preset_mode):
         """Set preset mode."""
-        _LOGGER.error("%s", preset_mode)
         if preset_mode == "away":
            await self._client.climate_command(key=self._static_info.key, away=True)
-           await self._client.climate_command(key=self._static_info.key, boost=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           #await self._client.climate_command(key=self._static_info.key, boost=False)
+           #await self._client.climate_command(key=self._static_info.key, sleep=False)
         if preset_mode == "home":
            await self._client.climate_command(key=self._static_info.key, away=False)
-           await self._client.climate_command(key=self._static_info.key, boost=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           #await self._client.climate_command(key=self._static_info.key, boost=False)
+           #await self._client.climate_command(key=self._static_info.key, sleep=False)
         if preset_mode == "boost":
            await self._client.climate_command(key=self._static_info.key, boost=True)
-           await self._client.climate_command(key=self._static_info.key, away=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           #await self._client.climate_command(key=self._static_info.key, away=False)
+           #await self._client.climate_command(key=self._static_info.key, sleep=False)
         if preset_mode == "sleep":
            await self._client.climate_command(key=self._static_info.key, sleep=True)
-           await self._client.climate_command(key=self._static_info.key, away=False)
-           await self._client.climate_command(key=self._static_info.key, boost=False)
+           #await self._client.climate_command(key=self._static_info.key, away=False)
+           #await self._client.climate_command(key=self._static_info.key, boost=False)
         if preset_mode == "none":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
