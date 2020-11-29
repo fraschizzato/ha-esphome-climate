@@ -1,9 +1,4 @@
 """Support for ESPHome climate devices."""
-import logging
-
-DOMAIN = "esphome"
-_LOGGER = logging.getLogger(__name__)
-
 from typing import List, Optional
 
 from aioesphomeapi import (
@@ -317,7 +312,6 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         )
 
     async def async_set_preset_mode(self, preset_mode):
-        _LOGGER.error("Incoming Preset %s", preset_mode)
         """Set preset mode."""
         if preset_mode == "away":
            await self._client.climate_command(key=self._static_info.key, boost=False)
