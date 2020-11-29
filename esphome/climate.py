@@ -331,7 +331,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, night=False)
            await self._client.climate_command(key=self._static_info.key, boost=True)
-        if preset_mode == "night":
+        if preset_mode == "sleep":
            _LOGGER.error("Night IN", night)
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
