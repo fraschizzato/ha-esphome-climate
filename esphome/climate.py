@@ -317,6 +317,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         )
 
     async def async_set_preset_mode(self, preset_mode):
+        _LOGGER.error("Incoming Preset %s", preset_mode)
         """Set preset mode."""
         if preset_mode == "away":
            await self._client.climate_command(key=self._static_info.key, boost=False)
@@ -331,9 +332,11 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
            await self._client.climate_command(key=self._static_info.key, night=False)
            await self._client.climate_command(key=self._static_info.key, boost=True)
         if preset_mode == "night":
+           _LOGGER.error("Night IN", night)
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
            await self._client.climate_command(key=self._static_info.key, night=True) 
+           _LOGGER.error("Night OUT %s", night)
         #Uncomment to make None available   
         #if preset_mode == "none":
         #   await self._client.climate_command(key=self._static_info.key, away=False)
