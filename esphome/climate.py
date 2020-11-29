@@ -188,10 +188,9 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if self._static_info.supports_night:
            presets.append(PRESET_SLEEP)
            none_flag = True
-        ##Uncomment this to enable None preset - See row 269
-        #if none_flag:
-        #   presets.append(PRESET_NONE)
-
+        if self._static_info.supports_eco:
+           presets.append(PRESET_ECO)
+           none_flag = True
         return presets
 
     @property
@@ -226,7 +225,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
             features |= SUPPORT_TARGET_TEMPERATURE_RANGE
         else:
             features |= SUPPORT_TARGET_TEMPERATURE
-        if self._static_info.supports_away or self._static_info.supports_night or self._static_info.supports_boost:
+        if self._static_info.supports_away or self._static_info.supports_night or self._static_info.supports_boost or self._static_info.supports_eco:
             features |= SUPPORT_PRESET_MODE
         if self._static_info.supported_fan_modes:
             features |= SUPPORT_FAN_MODE
@@ -261,11 +260,8 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
         elif self._state.night: return PRESET_SLEEP
-        #####Change This to get preset None instead of preset Home when Idle - see row 196
-        #elif not self._static_info.supports_boost and not self._static_info.supports_night: 
-        #    return PRESET_HOME
-        #else: return PRESET_NONE
-        else: return PRESET_HOME #and comment this...
+        elif self._state.eco: return PRESET_ECO
+        else: return PRESET_HOME
 
     @esphome_state_property
     def swing_mode(self):
@@ -316,24 +312,28 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if preset_mode == "away":
            await self._client.climate_command(key=self._static_info.key, boost=False)
            await self._client.climate_command(key=self._static_info.key, night=False)
+           await self._client.climate_command(key=self._static_info.key, eco=False)
            await self._client.climate_command(key=self._static_info.key, away=True)
         if preset_mode == "home":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, eco=False)
            await self._client.climate_command(key=self._static_info.key, night=False)
         if preset_mode == "boost":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, night=False)
+           await self._client.climate_command(key=self._static_info.key, eco=False)
            await self._client.climate_command(key=self._static_info.key, boost=True)
         if preset_mode == "sleep":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, eco=False)
            await self._client.climate_command(key=self._static_info.key, night=True) 
-        #Uncomment to make None available   
-        #if preset_mode == "none":
-        #   await self._client.climate_command(key=self._static_info.key, away=False)
-        #   await self._client.climate_command(key=self._static_info.key, boost=False)
-        #   await self._client.climate_command(key=self._static_info.key, night=False)
+        if preset_mode == "eco":
+           await self._client.climate_command(key=self._static_info.key, away=False)
+           await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, night=False)
+           await self._client.climate_command(key=self._static_info.key, eco=True)
 
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new fan mode."""
