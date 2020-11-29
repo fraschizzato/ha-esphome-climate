@@ -190,7 +190,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if self._static_info.supports_boost:
            presets.append(PRESET_BOOST)
            none_flag = True
-        if self._static_info.supports_sleep:
+        if self._static_info.supports_night:
            presets.append(PRESET_SLEEP)
            none_flag = True
         ##Uncomment this to enable None preset - See row 269
@@ -231,7 +231,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
             features |= SUPPORT_TARGET_TEMPERATURE_RANGE
         else:
             features |= SUPPORT_TARGET_TEMPERATURE
-        if self._static_info.supports_away or self._static_info.supports_sleep or self._static_info.supports_boost:
+        if self._static_info.supports_away or self._static_info.supports_night or self._static_info.supports_boost:
             features |= SUPPORT_PRESET_MODE
         if self._static_info.supported_fan_modes:
             features |= SUPPORT_FAN_MODE
@@ -265,9 +265,9 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         """Return current preset mode.""" 
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
-        elif self._state.sleep: return PRESET_SLEEP
+        elif self._state.night: return PRESET_SLEEP
         #####Change This to get preset None instead of preset Home when Idle - see row 196
-        #elif not self._static_info.supports_boost and not self._static_info.supports_sleep: 
+        #elif not self._static_info.supports_boost and not self._static_info.supports_night: 
         #    return PRESET_HOME
         #else: return PRESET_NONE
         else: return PRESET_HOME #and comment this...
@@ -320,24 +320,24 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         """Set preset mode."""
         if preset_mode == "away":
            await self._client.climate_command(key=self._static_info.key, boost=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           await self._client.climate_command(key=self._static_info.key, night=False)
            await self._client.climate_command(key=self._static_info.key, away=True)
         if preset_mode == "home":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           await self._client.climate_command(key=self._static_info.key, night=False)
         if preset_mode == "boost":
            await self._client.climate_command(key=self._static_info.key, away=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           await self._client.climate_command(key=self._static_info.key, night=False)
            await self._client.climate_command(key=self._static_info.key, boost=True)
-        if preset_mode == "sleep":
+        if preset_mode == "night":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=True)    
-        if preset_mode == "none":
-           await self._client.climate_command(key=self._static_info.key, away=False)
-           await self._client.climate_command(key=self._static_info.key, boost=False)
-           await self._client.climate_command(key=self._static_info.key, sleep=False)
+           await self._client.climate_command(key=self._static_info.key, night=True)    
+        #if preset_mode == "none":
+        #   await self._client.climate_command(key=self._static_info.key, away=False)
+        #   await self._client.climate_command(key=self._static_info.key, boost=False)
+        #   await self._client.climate_command(key=self._static_info.key, night=False)
 
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new fan mode."""
