@@ -193,8 +193,9 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if self._static_info.supports_sleep:
            presets.append(PRESET_SLEEP)
            none_flag = True
-        if none_flag:
-           presets.append(PRESET_NONE)
+        ##Uncomment this to enable None preset - See row 269
+        #if none_flag:
+        #   presets.append(PRESET_NONE)
 
         return presets
 
@@ -265,9 +266,11 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
         if self._state.away: return PRESET_AWAY 
         elif self._state.boost: return PRESET_BOOST
         elif self._state.sleep: return PRESET_SLEEP
-        elif not self._static_info.supports_boost and not self._static_info.supports_sleep: 
-            return PRESET_HOME
-        else: return PRESET_NONE
+        #####Change This to get preset None instead of preset Home when Idle - see row 196
+        #elif not self._static_info.supports_boost and not self._static_info.supports_sleep: 
+        #    return PRESET_HOME
+        #else: return PRESET_NONE
+        else: return PRESET_HOME #and comment this...
 
     @esphome_state_property
     def swing_mode(self):
@@ -316,21 +319,21 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     async def async_set_preset_mode(self, preset_mode):
         """Set preset mode."""
         if preset_mode == "away":
+           await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, sleep=False)
            await self._client.climate_command(key=self._static_info.key, away=True)
-           #await self._client.climate_command(key=self._static_info.key, boost=False)
-           #await self._client.climate_command(key=self._static_info.key, sleep=False)
         if preset_mode == "home":
            await self._client.climate_command(key=self._static_info.key, away=False)
-           #await self._client.climate_command(key=self._static_info.key, boost=False)
-           #await self._client.climate_command(key=self._static_info.key, sleep=False)
+           await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, sleep=False)
         if preset_mode == "boost":
+           await self._client.climate_command(key=self._static_info.key, away=False)
+           await self._client.climate_command(key=self._static_info.key, sleep=False)
            await self._client.climate_command(key=self._static_info.key, boost=True)
-           #await self._client.climate_command(key=self._static_info.key, away=False)
-           #await self._client.climate_command(key=self._static_info.key, sleep=False)
         if preset_mode == "sleep":
-           await self._client.climate_command(key=self._static_info.key, sleep=True)
-           #await self._client.climate_command(key=self._static_info.key, away=False)
-           #await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, away=False)
+           await self._client.climate_command(key=self._static_info.key, boost=False)
+           await self._client.climate_command(key=self._static_info.key, sleep=True)    
         if preset_mode == "none":
            await self._client.climate_command(key=self._static_info.key, away=False)
            await self._client.climate_command(key=self._static_info.key, boost=False)
