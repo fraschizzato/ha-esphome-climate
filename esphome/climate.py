@@ -317,7 +317,7 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
                 await self._client.climate_command(key=self._static_info.key, boost=False)
             if self._static_info.supports_night:
                 await self._client.climate_command(key=self._static_info.key, night=False)
-            if self._static_info.supports_eco
+            if self._static_info.supports_eco:
                 await self._client.climate_command(key=self._static_info.key, eco=False)
             
         if preset_mode == "home":
