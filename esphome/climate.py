@@ -174,10 +174,9 @@ class EsphomeClimateEntity(EsphomeEntity, ClimateEntity):
     @property
     def preset_modes(self):
         """Return preset modes."""
-        presets = []
+        presets = [PRESET_HOME]
         if self._static_info.supports_away:
             presets.append(PRESET_AWAY)
-            presets.append(PRESET_HOME)
         if self._static_info.supports_boost:
             presets.append(PRESET_BOOST)
         if self._static_info.supports_night:
